@@ -1,0 +1,134 @@
+{namespace nl.eernie.templates}
+
+/**
+ * @param repository Repository object
+ * @param configurations
+ * @param error
+ */
+{template .repositorySettings}
+<html>
+<head>
+    <meta name="decorator" content="bitbucket.repository.settings">
+    <meta name="projectKey" content="{$repository.project.key}">
+    <meta name="repositorySlug" content="{$repository.slug}">
+    <meta name="activeTab" content="repository-settings-plugin-tab">
+    <title>{$repository.slug} / Webhooks</title>
+</head>
+<body>
+    {if $error}
+      <div style="color: #BF3333; background-color: #DDDDDD"><div style="padding: 15px"><b>ERROR:</b> {$error}</b></div></div>
+    {/if}
+    <header class="aui-page-header">
+        <div class="aui-page-header-inner">
+            <div class="aui-page-header-main">
+                <h2>Webhooks for Repo: {$repository.slug}</h2>
+            </div>
+            <div class="aui-page-header-actions">
+                <div class="aui-buttons">
+                    <a href="?edit" class="aui-button">Add webhook</a>
+                </div>
+            </div>
+        </div>
+    </header>
+   <table class="aui">
+       <thead>
+       <tr>
+           <th id="enabled">Enabled</th>
+           <th id="title">Title</th>
+           <th id="url">Url</th>
+           <th id="action">Action</th>
+       </tr>
+       </thead>
+       <tbody>
+       {foreach $configuration in $configurations}
+           <tr>
+               <td headers="enabled">{if $configuration.enabled}true{else}false{/if}</td>
+               <td headers="title">{$configuration.title}</td>
+               <td headers="url">{$configuration.URL}</td>
+               <td class="action" headers="action">
+                   <ul class="menu">
+                       <li>
+                           <a href="?edit&id={$configuration.ID}">edit</a>
+                       </li>
+                       <li>
+                           <a href="#">delete</a>
+                       </li>
+                   </ul>
+               </td>
+           </tr>
+       {ifempty}
+            <tr>
+                <td colspan="4" style="text-align:center;">No webhooks configured.</td>
+            </tr>
+       {/foreach}
+       </tbody>
+   </table>
+</body>
+</html>
+{/template}
+
+
+/**
+ * @param repository Repository object
+ * @param configuration configuration object
+ */
+{template .edit}
+   <html>
+   <head>
+       <meta name="decorator" content="bitbucket.repository.settings">
+       <meta name="projectKey" content="{$repository.project.key}">
+       <meta name="repositorySlug" content="{$repository.slug}">
+       <meta name="activeTab" content="repository-settings-plugin-tab">
+       <title>{$repository.slug} / Webhooks</title>
+   </head>
+   <body>
+       <header class="aui-page-header">
+           <div class="aui-page-header-inner">
+               <div class="aui-page-header-main">
+                   <h2>Webhooks for Repo: {$repository.slug}</h2>
+               </div>
+           </div>
+       </header>
+       {call aui.form.form}
+         {param action: '' /}
+         {param content}
+           {call aui.group.group}
+             {param content}
+               {call aui.form.textField}
+                 {param id: 'title' /}
+                 {param legendContent: 'Title' /}
+                 {param labelContent: 'Title' /}
+                 {param value:  $configuration ? $configuration.title : '' /}
+               {/call}
+               {call aui.form.textField}
+                 {param id: 'url' /}
+                 {param legendContent: 'Url' /}
+                 {param labelContent: 'url' /}
+                 {param value:  $configuration ? $configuration.URL : '' /}
+               {/call}
+
+               {call aui.form.checkboxField}
+                 {param legendContent: 'Enabled' /}
+                 {param fields: [[
+                   'id': 'enabled',
+                   'labelText': 'enabled',
+                   'isChecked': $configuration ? $configuration.enabled : true
+                 ]] /}
+               {/call}
+               <br />
+               {call aui.form.buttons}
+                 {param content}
+                   {call aui.form.submit}
+                     {param id: 'submit' /}
+                     {param text: 'Save' /}
+                     {param type: 'submit' /}
+                   {/call}
+                 {/param}
+               {/call}
+             {/param}
+           {/call}
+         {/param}
+       {/call}
+   </body>
+   </html>
+{/template}

@@ -1,0 +1,49 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="3">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}"/>
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+        <permissions>
+            <permission>execute_java</permission>
+        </permissions>
+    </plugin-info>
+
+    <ao key="ao-module">
+        <description>The AO module for this plugin.</description>
+        <entity>nl.eernie.bitbucket.persistence.WebHookConfiguration</entity>
+    </ao>
+
+    <servlet name="Repository Servlet" key="repository-servlet"
+             class="nl.eernie.bitbucket.api.RepositoryConfigServlet">
+        <description key="repository-servlet.description">The Repository Servlet Plugin</description>
+        <url-pattern>/webhooks/repository/*</url-pattern>
+    </servlet>
+
+    <client-resource key="templates-soy" name="Soy Templates">
+        <directory location="/templates/"/>
+        <dependency>com.atlassian.bitbucket.server.bitbucket-web:server-soy-templates</dependency>
+    </client-resource>
+
+    <!-- add our i18n resource -->
+    <resource type="i18n" name="i18n" location="bitbucket-webhooks"/>
+
+    <!-- add our web resources -->
+    <web-resource key="bitbucket-webhooks-resources" name="bitbucket-webhooks Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+
+        <resource type="download" name="bitbucket-webhooks.css" location="/css/bitbucket-webhooks.css"/>
+        <resource type="download" name="bitbucket-webhooks.js" location="/js/bitbucket-webhooks.js"/>
+        <resource type="download" name="images/" location="/images"/>
+
+        <context>bitbucket-webhooks</context>
+    </web-resource>
+    <web-item key="repository-settings-plugin-tab" name="Repository settings navigation tab"
+              section="bitbucket.repository.settings.panel/repository-workflow-section" weight="50">
+        <label>Webhooks</label>
+        <link>/plugins/servlet/webhooks/repository/${repository.project.key}/${repository.slug}/settings</link>
+        <tooltip>Hooray, we have a tab!</tooltip>
+    </web-item>
+
+</atlassian-plugin>
