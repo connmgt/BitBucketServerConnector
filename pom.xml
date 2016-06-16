@@ -9,12 +9,12 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <organization>
-        <name>Example Company</name>
-        <url>http://www.example.com/</url>
+        <name>Eernie.nl</name>
+        <url>http://www.eernie.nl/</url>
     </organization>
 
     <name>bitbucket-webhooks</name>
-    <description>This is the nl.eernie.bitbucket:bitbucket-webhooks plugin for Atlassian Bitbucket Server.</description>
+    <description>This is the Webhooks plugin, It sends out json messages when a PR is created, updated or when a push occurs.</description>
     <packaging>atlassian-plugin</packaging>
 
     <dependencyManagement>

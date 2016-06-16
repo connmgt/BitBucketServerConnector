@@ -3,6 +3,7 @@ package nl.eernie.bitbucket.api;
 import com.atlassian.bitbucket.event.pull.PullRequestEvent;
 import com.atlassian.bitbucket.event.pull.PullRequestOpenedEvent;
 import com.atlassian.bitbucket.event.pull.PullRequestUpdatedEvent;
+import com.atlassian.bitbucket.event.repository.AbstractRepositoryRefsChangedEvent;
 import com.atlassian.bitbucket.project.Project;
 import com.atlassian.bitbucket.pull.PullRequest;
 import com.atlassian.bitbucket.pull.PullRequestRef;
@@ -13,6 +14,7 @@ import com.atlassian.httpclient.api.HttpClient;
 import com.atlassian.httpclient.api.Request;
 import com.atlassian.httpclient.api.Response;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
+import nl.eernie.bitbucket.events.BitbucketPushEvent;
 import nl.eernie.bitbucket.events.BitbucketServerPullRequestEvent;
 import nl.eernie.bitbucket.events.EventType;
 import nl.eernie.bitbucket.model.pullrequest.BitbucketServerPullRequest;
@@ -60,12 +62,30 @@ public class PullRequestListener implements DisposableBean
 		sendPullRequestEvent(event, EventType.PULL_REQUEST_UPDATED);
 	}
 
+	@EventListener
+	public void repoChangedEvent(AbstractRepositoryRefsChangedEvent event) throws IOException, ExecutionException, InterruptedException
+	{
+		BitbucketPushEvent pushEvent = createPushEvent(event);
+		sendEvents(pushEvent, event.getRepository(), EventType.REPO_PUSH);
+	}
+
+	private BitbucketPushEvent createPushEvent(AbstractRepositoryRefsChangedEvent event)
+	{
+		BitbucketPushEvent pushEvent = new BitbucketPushEvent();
+		pushEvent.setRepository(createRepository(event.getRepository()));
+		return pushEvent;
+	}
+
 	private void sendPullRequestEvent(PullRequestEvent event, EventType eventType) throws IOException, ExecutionException, InterruptedException
 	{
-		Repository repo = event.getPullRequest().getToRef().getRepository();
-		WebHookConfiguration[] webHookConfigurations = persistenceManager.getWebHookConfigurations(repo);
-
 		BitbucketServerPullRequestEvent pullRequestEvent = createPullrequestEvent(event);
+		sendEvents(pullRequestEvent, event.getPullRequest().getToRef().getRepository(), eventType);
+	}
+
+	private void sendEvents(Object event, Repository repo, EventType eventType) throws IOException, ExecutionException, InterruptedException
+	{
+
+		WebHookConfiguration[] webHookConfigurations = persistenceManager.getWebHookConfigurations(repo);
 
 		Map<String, String> header = new HashMap<>();
 		header.put("X-Event-Key", eventType.getHeaderValue());
@@ -81,10 +101,8 @@ public class PullRequestListener implements DisposableBean
 			Request.Builder builder = httpClient.newRequest(webHookConfiguration.getURL());
 			builder.setHeaders(header);
 			builder.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			Response response = builder.setEntity(mapper.writeValueAsString(pullRequestEvent)).post().get();
-			System.out.println(response.getEntity());
-			System.out.println(response.getHeaders());
-			System.out.println(response.getStatusCode());
+			Response response = builder.setEntity(mapper.writeValueAsString(event)).post().get();
+
 		}
 	}
 
