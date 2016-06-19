@@ -6,9 +6,9 @@ import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.atlassian.soy.renderer.SoyException;
 import com.atlassian.soy.renderer.SoyTemplateRenderer;
 import com.google.common.collect.ImmutableMap;
-import nl.topicus.bitbucket.persistence.NonpersistantWebHookConfiguration;
-import nl.topicus.bitbucket.persistence.PersistenceManager;
+import nl.topicus.bitbucket.persistence.DummyWebHookConfiguration;
 import nl.topicus.bitbucket.persistence.WebHookConfiguration;
+import nl.topicus.bitbucket.persistence.WebHookConfigurationDao;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -31,14 +31,14 @@ public class RepositoryConfigServlet extends HttpServlet
 {
 	private final SoyTemplateRenderer soyTemplateRenderer;
 	private final RepositoryService repositoryService;
-	private final PersistenceManager persistenceManager;
+	private final WebHookConfigurationDao webHookConfigurationDao;
 
 	@Autowired
-	public RepositoryConfigServlet(@ComponentImport SoyTemplateRenderer soyTemplateRenderer, @ComponentImport RepositoryService repositoryService, PersistenceManager persistenceManager)
+	public RepositoryConfigServlet(@ComponentImport SoyTemplateRenderer soyTemplateRenderer, @ComponentImport RepositoryService repositoryService, WebHookConfigurationDao webHookConfigurationDao)
 	{
 		this.soyTemplateRenderer = soyTemplateRenderer;
 		this.repositoryService = repositoryService;
-		this.persistenceManager = persistenceManager;
+		this.webHookConfigurationDao = webHookConfigurationDao;
 	}
 
 	protected void render(HttpServletResponse resp, String templateName, Map<String, Object> data) throws IOException, ServletException
@@ -75,8 +75,8 @@ public class RepositoryConfigServlet extends HttpServlet
 			ImmutableMap.Builder<String, Object> properties = ImmutableMap.<String, Object>builder().put("repository", repository);
 			if (id.isPresent())
 			{
-				WebHookConfiguration webHookConfiguration = persistenceManager.getWebHookConfigurations(repository, id.get().getValue());
-				if (webHookConfiguration != null)
+				WebHookConfiguration webHookConfiguration = webHookConfigurationDao.getWebHookConfigurations(id.get().getValue());
+				if (webHookConfiguration != null && webHookConfiguration.getRepositoryId().equals(repository.getId()))
 				{
 					properties.put("configuration", webHookConfiguration);
 				}
@@ -86,7 +86,7 @@ public class RepositoryConfigServlet extends HttpServlet
 		}
 		else
 		{
-			WebHookConfiguration[] webHookConfigurations = persistenceManager.getWebHookConfigurations(repository);
+			WebHookConfiguration[] webHookConfigurations = webHookConfigurationDao.getWebHookConfigurations(repository);
 			String template = "nl.topicus.templates.repositorySettings";
 			render(resp, template, ImmutableMap.<String, Object>builder().put("repository", repository).put("configurations", webHookConfigurations).build());
 		}
@@ -125,19 +125,18 @@ public class RepositoryConfigServlet extends HttpServlet
 		String title = req.getParameter("title");
 		String url = req.getParameter("url");
 		String id = req.getParameter("id");
-		System.out.println("on".equalsIgnoreCase(req.getParameter("enabled")));
 		boolean enabled = "on".equalsIgnoreCase(req.getParameter("enabled"));
 
-		WebHookConfiguration webHookConfiguration = persistenceManager.createOrUpdateWebHookConfiguration(repository, id, title, url, enabled);
+		WebHookConfiguration webHookConfiguration = webHookConfigurationDao.createOrUpdateWebHookConfiguration(repository, id, title, url, enabled);
 		if (webHookConfiguration == null)
 		{
-			webHookConfiguration = new NonpersistantWebHookConfiguration(title, url, enabled);
+			webHookConfiguration = new DummyWebHookConfiguration(title, url, enabled);
 			String template = "nl.topicus.templates.edit";
 			render(resp, template, ImmutableMap.<String, Object>builder().put("repository", repository).put("configuration", webHookConfiguration).build());
 		}
 		else
 		{
-			WebHookConfiguration[] webHookConfigurations = persistenceManager.getWebHookConfigurations(repository);
+			WebHookConfiguration[] webHookConfigurations = webHookConfigurationDao.getWebHookConfigurations(repository);
 			String template = "nl.topicus.templates.repositorySettings";
 			render(resp, template, ImmutableMap.<String, Object>builder().put("repository", repository).put("configurations", webHookConfigurations).build());
 		}

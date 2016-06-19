@@ -1,20 +1,18 @@
 package nl.topicus.bitbucket.persistence;
 
-import com.atlassian.bitbucket.repository.Repository;
-import com.atlassian.bitbucket.repository.RepositoryService;
 import net.java.ao.EntityManager;
 import net.java.ao.RawEntity;
 
 import java.beans.PropertyChangeListener;
 
-public class NonpersistantWebHookConfiguration implements WebHookConfiguration
+public class DummyWebHookConfiguration implements WebHookConfiguration
 {
 	private String title;
 	private String URL;
 	private Integer repoId;
 	private boolean enabled;
 
-	public NonpersistantWebHookConfiguration(String title, String url, boolean enabled)
+	public DummyWebHookConfiguration(String title, String url, boolean enabled)
 	{
 		this.title = title;
 		this.URL = url;
@@ -70,18 +68,6 @@ public class NonpersistantWebHookConfiguration implements WebHookConfiguration
 	}
 
 	@Override
-	public Repository getRepository(RepositoryService rs)
-	{
-		return rs.getById(repoId);
-	}
-
-	@Override
-	public void setRepository(Repository repo)
-	{
-
-	}
-
-	@Override
 	public int getID()
 	{
 		return 0;
@@ -108,7 +94,7 @@ public class NonpersistantWebHookConfiguration implements WebHookConfiguration
 	@Override
 	public <X extends RawEntity<Integer>> Class<X> getEntityType()
 	{
-		return (Class<X>) NonpersistantWebHookConfiguration.class;
+		return (Class<X>) DummyWebHookConfiguration.class;
 	}
 
 	@Override
