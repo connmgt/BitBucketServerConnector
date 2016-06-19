@@ -227,4 +227,18 @@
             <url>https://opensource.org/licenses/GPL-2.0</url>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <name>Erwin Oldenkamp</name>
+            <email>erwin.oldenkamp@topicus.nl</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:topicusfinan/bitbucket-webhooks-plugin.git</connection>
+        <url>scm:git:git@github.com:topicusfinan/bitbucket-webhooks-plugin.git</url>
+        <developerConnection>scm:git:git@github.com:topicusfinan/bitbucket-webhooks-plugin.git</developerConnection>
+    </scm>
+
 </project>
