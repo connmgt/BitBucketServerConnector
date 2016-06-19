@@ -220,4 +220,10 @@
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
     </properties>
 
+    <licenses>
+        <license>
+            <name>GNU General Public License</name>
+            <url>https://opensource.org/licenses/GPL-2.0</url>
+        </license>
+    </licenses>
 </project>
