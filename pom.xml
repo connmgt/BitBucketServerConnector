@@ -213,11 +213,12 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <bitbucket.version>4.6.1</bitbucket.version>
         <bitbucket.data.version>4.6.1</bitbucket.data.version>
-        <amps.version>6.2.3</amps.version>
+        <amps.version>6.2.4</amps.version>
         <plugin.testrunner.version>1.2.3</plugin.testrunner.version>
         <atlassian.spring.scanner.version>1.2.6</atlassian.spring.scanner.version>
         <!-- This key is used to keep the consistency between the key in atlassian-plugin.xml and the key to generate bundle. -->
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
+        <allow.google.tracking>false</allow.google.tracking>
     </properties>
 
     <licenses>
