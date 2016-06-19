@@ -21,39 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package nl.eernie.bitbucket.model.repository;
+package nl.topicus.bitbucket.model.repository;
 
-public class BitbucketServerRepositoryOwner
-{
+public class BitbucketServerProject  {
 
-	private String username;
+    private String key;
 
-	private String displayName;
+    private String name;
 
-	public BitbucketServerRepositoryOwner(String username, String displayName)
-	{
-		this.username = username;
-		this.displayName = displayName;
-	}
+    public String getKey() {
+        return key;
+    }
 
-	public String getUsername()
-	{
-		return username;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getDisplayName()
-	{
-		return displayName;
-	}
+    public void setKey(String key) {
+        this.key = key;
+    }
 
-	public void setUsername(String username)
-	{
-		this.username = username;
-	}
-
-	public void setDisplayName(String displayName)
-	{
-		this.displayName = displayName;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

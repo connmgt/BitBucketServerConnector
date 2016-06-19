@@ -1,4 +1,4 @@
-package nl.eernie.bitbucket.persistence;
+package nl.topicus.bitbucket.persistence;
 
 import com.atlassian.bitbucket.repository.Repository;
 import com.atlassian.bitbucket.repository.RepositoryService;

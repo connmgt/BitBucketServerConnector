@@ -10,5 +10,5 @@
          http://www.springframework.org/schema/context
          http://www.springframework.org/schema/context/spring-context-2.5.xsd">
     <atlassian-scanner:scan-indexes auto-imports="true"/>
-    <context:component-scan base-package="nl.eernie.bitbucket"/>
+    <context:component-scan base-package="nl.topicus.bitbucket"/>
 </beans>

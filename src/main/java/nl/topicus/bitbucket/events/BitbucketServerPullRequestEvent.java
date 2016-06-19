@@ -21,42 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package nl.eernie.bitbucket.model.pullrequest;
+package nl.topicus.bitbucket.events;
 
-public class BitbucketServerPullRequest {
+import nl.topicus.bitbucket.model.pullrequest.BitbucketServerPullRequest;
+import nl.topicus.bitbucket.model.repository.BitbucketServerRepository;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-    private String id;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class BitbucketServerPullRequestEvent
+{
+	private BitbucketServerPullRequest pullrequest;
 
-    private BitbucketServerPullRequestSource fromRef;
+	private BitbucketServerRepository repository;
 
-    private BitbucketServerPullRequestSource toRef;
+	public BitbucketServerPullRequest getPullrequest()
+	{
+		return pullrequest;
+	}
 
-    public BitbucketServerPullRequestSource getFromRef()
-    {
-        return fromRef;
-    }
+	public void setPullrequest(BitbucketServerPullRequest pullrequest)
+	{
+		this.pullrequest = pullrequest;
+	}
 
-    public void setFromRef(BitbucketServerPullRequestSource fromRef)
-    {
-        this.fromRef = fromRef;
-    }
+	public BitbucketServerRepository getRepository()
+	{
+		return repository;
+	}
 
-    public BitbucketServerPullRequestSource getToRef()
-    {
-        return toRef;
-    }
-
-    public void setToRef(BitbucketServerPullRequestSource toRef)
-    {
-        this.toRef = toRef;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setRepository(BitbucketServerRepository repository)
+	{
+		this.repository = repository;
+	}
 
 }

@@ -21,48 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package nl.eernie.bitbucket.model.pullrequest;
+package nl.topicus.bitbucket.model.repository;
 
-import nl.eernie.bitbucket.model.branch.BitbucketServerBranch;
-import nl.eernie.bitbucket.model.branch.BitbucketServerCommit;
-import nl.eernie.bitbucket.model.repository.BitbucketServerRepository;
-
-public class BitbucketServerPullRequestSource
+public class BitbucketServerRepositoryOwner
 {
-	private String latestCommit;
 
-	private String displayId;
+	private String username;
 
-	private BitbucketServerRepository repository;
+	private String displayName;
 
-	public BitbucketServerRepository getRepository()
+	public BitbucketServerRepositoryOwner(String username, String displayName)
 	{
-		return repository;
+		this.username = username;
+		this.displayName = displayName;
 	}
 
-	public BitbucketServerBranch getBranch()
+	public String getUsername()
 	{
-		return new BitbucketServerBranch(displayId, latestCommit);
+		return username;
 	}
 
-	public BitbucketServerCommit getCommit()
+	public String getDisplayName()
 	{
-		return new BitbucketServerCommit(latestCommit);
+		return displayName;
 	}
 
-	public void setLatestCommit(String latestCommit)
+	public void setUsername(String username)
 	{
-		this.latestCommit = latestCommit;
+		this.username = username;
 	}
 
-	public void setDisplayId(String displayId)
+	public void setDisplayName(String displayName)
 	{
-		this.displayId = displayId;
-	}
-
-	public void setRepository(BitbucketServerRepository repository)
-	{
-		this.repository = repository;
+		this.displayName = displayName;
 	}
 
 }

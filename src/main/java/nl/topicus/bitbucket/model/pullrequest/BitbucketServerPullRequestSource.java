@@ -21,28 +21,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package nl.eernie.bitbucket.model.repository;
+package nl.topicus.bitbucket.model.pullrequest;
 
-public class BitbucketServerProject  {
+import nl.topicus.bitbucket.model.branch.BitbucketServerBranch;
+import nl.topicus.bitbucket.model.branch.BitbucketServerCommit;
+import nl.topicus.bitbucket.model.repository.BitbucketServerRepository;
 
-    private String key;
+public class BitbucketServerPullRequestSource
+{
+	private String latestCommit;
 
-    private String name;
+	private String displayId;
 
-    public String getKey() {
-        return key;
-    }
+	private BitbucketServerRepository repository;
 
-    public String getName() {
-        return name;
-    }
+	public BitbucketServerRepository getRepository()
+	{
+		return repository;
+	}
 
-    public void setKey(String key) {
-        this.key = key;
-    }
+	public BitbucketServerBranch getBranch()
+	{
+		return new BitbucketServerBranch(displayId, latestCommit);
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public BitbucketServerCommit getCommit()
+	{
+		return new BitbucketServerCommit(latestCommit);
+	}
+
+	public void setLatestCommit(String latestCommit)
+	{
+		this.latestCommit = latestCommit;
+	}
+
+	public void setDisplayId(String displayId)
+	{
+		this.displayId = displayId;
+	}
+
+	public void setRepository(BitbucketServerRepository repository)
+	{
+		this.repository = repository;
+	}
 
 }

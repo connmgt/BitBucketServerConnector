@@ -1,4 +1,4 @@
-package nl.eernie.bitbucket.events;
+package nl.topicus.bitbucket.events;
 
 public enum EventType
 {

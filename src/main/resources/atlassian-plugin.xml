@@ -12,11 +12,11 @@
 
     <ao key="ao-module">
         <description>The AO module for this plugin.</description>
-        <entity>nl.eernie.bitbucket.persistence.WebHookConfiguration</entity>
+        <entity>nl.topicus.bitbucket.persistence.WebHookConfiguration</entity>
     </ao>
 
     <servlet name="Repository Servlet" key="repository-servlet"
-             class="nl.eernie.bitbucket.api.RepositoryConfigServlet">
+             class="nl.topicus.bitbucket.api.RepositoryConfigServlet">
         <description key="repository-servlet.description">The Repository Servlet Plugin</description>
         <url-pattern>/webhooks/repository/*</url-pattern>
     </servlet>

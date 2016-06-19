@@ -1,4 +1,4 @@
-package nl.eernie.bitbucket.api;
+package nl.topicus.bitbucket.api;
 
 import com.atlassian.bitbucket.repository.Repository;
 import com.atlassian.bitbucket.repository.RepositoryService;
@@ -6,9 +6,9 @@ import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.atlassian.soy.renderer.SoyException;
 import com.atlassian.soy.renderer.SoyTemplateRenderer;
 import com.google.common.collect.ImmutableMap;
-import nl.eernie.bitbucket.persistence.NonpersistantWebHookConfiguration;
-import nl.eernie.bitbucket.persistence.PersistenceManager;
-import nl.eernie.bitbucket.persistence.WebHookConfiguration;
+import nl.topicus.bitbucket.persistence.NonpersistantWebHookConfiguration;
+import nl.topicus.bitbucket.persistence.PersistenceManager;
+import nl.topicus.bitbucket.persistence.WebHookConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -46,7 +46,7 @@ public class RepositoryConfigServlet extends HttpServlet
 		resp.setContentType("text/html;charset=UTF-8");
 		try
 		{
-			soyTemplateRenderer.render(resp.getWriter(), "nl.eernie.bitbucket.bitbucket-webhooks:templates-soy", templateName, data);
+			soyTemplateRenderer.render(resp.getWriter(), "nl.topicus.bitbucket.bitbucket-webhooks:templates-soy", templateName, data);
 		}
 		catch (SoyException e)
 		{
@@ -81,13 +81,13 @@ public class RepositoryConfigServlet extends HttpServlet
 					properties.put("configuration", webHookConfiguration);
 				}
 			}
-			String template = "nl.eernie.templates.edit";
+			String template = "nl.topicus.templates.edit";
 			render(resp, template, properties.build());
 		}
 		else
 		{
 			WebHookConfiguration[] webHookConfigurations = persistenceManager.getWebHookConfigurations(repository);
-			String template = "nl.eernie.templates.repositorySettings";
+			String template = "nl.topicus.templates.repositorySettings";
 			render(resp, template, ImmutableMap.<String, Object>builder().put("repository", repository).put("configurations", webHookConfigurations).build());
 		}
 	}
@@ -132,13 +132,13 @@ public class RepositoryConfigServlet extends HttpServlet
 		if (webHookConfiguration == null)
 		{
 			webHookConfiguration = new NonpersistantWebHookConfiguration(title, url, enabled);
-			String template = "nl.eernie.templates.edit";
+			String template = "nl.topicus.templates.edit";
 			render(resp, template, ImmutableMap.<String, Object>builder().put("repository", repository).put("configuration", webHookConfiguration).build());
 		}
 		else
 		{
 			WebHookConfiguration[] webHookConfigurations = persistenceManager.getWebHookConfigurations(repository);
-			String template = "nl.eernie.templates.repositorySettings";
+			String template = "nl.topicus.templates.repositorySettings";
 			render(resp, template, ImmutableMap.<String, Object>builder().put("repository", repository).put("configurations", webHookConfigurations).build());
 		}
 	}

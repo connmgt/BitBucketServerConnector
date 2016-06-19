@@ -1,4 +1,4 @@
-package nl.eernie.bitbucket.model.branch;
+package nl.topicus.bitbucket.model.branch;
 
 public class BitbucketServerCommit
 {

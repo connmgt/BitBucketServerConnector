@@ -21,37 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package nl.eernie.bitbucket.events;
+package nl.topicus.bitbucket.events;
 
-import nl.eernie.bitbucket.model.pullrequest.BitbucketServerPullRequest;
-import nl.eernie.bitbucket.model.repository.BitbucketServerRepository;
+import nl.topicus.bitbucket.model.repository.BitbucketServerRepository;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BitbucketServerPullRequestEvent
-{
-	private BitbucketServerPullRequest pullrequest;
+public class BitbucketPushEvent {
 
-	private BitbucketServerRepository repository;
+    private BitbucketServerRepository repository;
 
-	public BitbucketServerPullRequest getPullrequest()
-	{
-		return pullrequest;
-	}
+    public BitbucketServerRepository getRepository() {
+        return repository;
+    }
 
-	public void setPullrequest(BitbucketServerPullRequest pullrequest)
-	{
-		this.pullrequest = pullrequest;
-	}
-
-	public BitbucketServerRepository getRepository()
-	{
-		return repository;
-	}
-
-	public void setRepository(BitbucketServerRepository repository)
-	{
-		this.repository = repository;
-	}
+    public void setRepository(BitbucketServerRepository repository) {
+        this.repository = repository;
+    }
 
 }
