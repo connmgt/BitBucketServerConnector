@@ -23,26 +23,31 @@
  */
 package nl.topicus.bitbucket.model.repository;
 
-public class BitbucketServerProject  {
+public class BitbucketServerProject
+{
 
-    private String key;
+	private String key;
 
-    private String name;
+	private String name;
 
-    public String getKey() {
-        return key;
-    }
+	public String getKey()
+	{
+		return key;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName()
+	{
+		return name;
+	}
 
-    public void setKey(String key) {
-        this.key = key;
-    }
+	public void setKey(String key)
+	{
+		this.key = key;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 
 }

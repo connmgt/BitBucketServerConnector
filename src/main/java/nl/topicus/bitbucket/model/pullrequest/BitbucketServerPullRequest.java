@@ -23,40 +23,43 @@
  */
 package nl.topicus.bitbucket.model.pullrequest;
 
-public class BitbucketServerPullRequest {
+public class BitbucketServerPullRequest
+{
 
-    private String id;
+	private String id;
 
-    private BitbucketServerPullRequestSource fromRef;
+	private BitbucketServerPullRequestSource fromRef;
 
-    private BitbucketServerPullRequestSource toRef;
+	private BitbucketServerPullRequestSource toRef;
 
-    public BitbucketServerPullRequestSource getFromRef()
-    {
-        return fromRef;
-    }
+	public BitbucketServerPullRequestSource getFromRef()
+	{
+		return fromRef;
+	}
 
-    public void setFromRef(BitbucketServerPullRequestSource fromRef)
-    {
-        this.fromRef = fromRef;
-    }
+	public void setFromRef(BitbucketServerPullRequestSource fromRef)
+	{
+		this.fromRef = fromRef;
+	}
 
-    public BitbucketServerPullRequestSource getToRef()
-    {
-        return toRef;
-    }
+	public BitbucketServerPullRequestSource getToRef()
+	{
+		return toRef;
+	}
 
-    public void setToRef(BitbucketServerPullRequestSource toRef)
-    {
-        this.toRef = toRef;
-    }
+	public void setToRef(BitbucketServerPullRequestSource toRef)
+	{
+		this.toRef = toRef;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getId()
+	{
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(String id)
+	{
+		this.id = id;
+	}
 
 }

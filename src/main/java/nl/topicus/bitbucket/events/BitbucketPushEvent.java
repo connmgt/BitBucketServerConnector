@@ -27,16 +27,19 @@ import nl.topicus.bitbucket.model.repository.BitbucketServerRepository;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BitbucketPushEvent {
+public class BitbucketPushEvent
+{
 
-    private BitbucketServerRepository repository;
+	private BitbucketServerRepository repository;
 
-    public BitbucketServerRepository getRepository() {
-        return repository;
-    }
+	public BitbucketServerRepository getRepository()
+	{
+		return repository;
+	}
 
-    public void setRepository(BitbucketServerRepository repository) {
-        this.repository = repository;
-    }
+	public void setRepository(BitbucketServerRepository repository)
+	{
+		this.repository = repository;
+	}
 
 }

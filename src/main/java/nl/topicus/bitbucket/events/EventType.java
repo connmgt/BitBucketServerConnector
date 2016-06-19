@@ -4,8 +4,7 @@ public enum EventType
 {
 	PULL_REQUEST_CREATED("pullrequest:created"),
 	PULL_REQUEST_UPDATED("pullrequest:updated"),
-	REPO_PUSH("repo:push"),
-	;
+	REPO_PUSH("repo:push"),;
 
 	private final String headerValue;
 
