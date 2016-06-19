@@ -1,6 +1,7 @@
 package nl.topicus.bitbucket.api;
 
 import com.atlassian.bitbucket.event.pull.PullRequestEvent;
+import com.atlassian.bitbucket.event.pull.PullRequestMergedEvent;
 import com.atlassian.bitbucket.event.pull.PullRequestOpenedEvent;
 import com.atlassian.bitbucket.event.pull.PullRequestReopenedEvent;
 import com.atlassian.bitbucket.event.pull.PullRequestUpdatedEvent;
@@ -63,6 +64,12 @@ public class PullRequestListener implements DisposableBean
 
 	@EventListener
 	public void reopenedEvent(PullRequestReopenedEvent event) throws IOException
+	{
+		sendPullRequestEvent(event, EventType.PULL_REQUEST_UPDATED);
+	}
+
+	@EventListener
+	public void mergedEvent(PullRequestMergedEvent event) throws IOException
 	{
 		sendPullRequestEvent(event, EventType.PULL_REQUEST_UPDATED);
 	}
