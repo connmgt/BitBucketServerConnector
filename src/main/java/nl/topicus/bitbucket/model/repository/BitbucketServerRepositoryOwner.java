@@ -25,9 +25,7 @@ package nl.topicus.bitbucket.model.repository;
 
 public class BitbucketServerRepositoryOwner
 {
-
 	private String username;
-
 	private String displayName;
 
 	public BitbucketServerRepositoryOwner(String username, String displayName)

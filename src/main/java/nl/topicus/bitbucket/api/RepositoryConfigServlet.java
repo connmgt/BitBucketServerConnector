@@ -1,5 +1,6 @@
 package nl.topicus.bitbucket.api;
 
+import com.atlassian.bitbucket.nav.NavBuilder;
 import com.atlassian.bitbucket.repository.Repository;
 import com.atlassian.bitbucket.repository.RepositoryService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;

@@ -2,13 +2,9 @@ package nl.topicus.bitbucket.model.branch;
 
 public class BitbucketServerCommit
 {
-
 	private String message;
-
 	private String date;
-
 	private String hash;
-
 	private long authorTimestamp;
 
 	public BitbucketServerCommit()

@@ -13,4 +13,5 @@
     <osgi:reference id="activeObjects" interface="com.atlassian.activeobjects.external.ActiveObjects"/>
     <osgi:reference id="eventPublisher" interface="com.atlassian.event.api.EventPublisher"/>
     <osgi:reference id="httpClient" interface="com.atlassian.httpclient.api.HttpClient"/>
+    <osgi:reference id="navBuilder" interface="com.atlassian.bitbucket.nav.NavBuilder"/>
 </beans:beans>

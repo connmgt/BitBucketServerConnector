@@ -6,6 +6,7 @@ import com.atlassian.bitbucket.event.pull.PullRequestOpenedEvent;
 import com.atlassian.bitbucket.event.pull.PullRequestReopenedEvent;
 import com.atlassian.bitbucket.event.pull.PullRequestUpdatedEvent;
 import com.atlassian.bitbucket.event.repository.AbstractRepositoryRefsChangedEvent;
+import com.atlassian.bitbucket.nav.NavBuilder;
 import com.atlassian.bitbucket.repository.Repository;
 import com.atlassian.event.api.EventListener;
 import com.atlassian.event.api.EventPublisher;
@@ -39,13 +40,15 @@ public class PullRequestListener implements DisposableBean
 
 	private EventPublisher eventPublisher;
 	private HttpClient httpClient;
+	private NavBuilder navBuilder;
 	private WebHookConfigurationDao webHookConfigurationDao;
 
 	@Autowired
-	public PullRequestListener(@ComponentImport EventPublisher eventPublisher, @ComponentImport HttpClient httpClient, WebHookConfigurationDao webHookConfigurationDao)
+	public PullRequestListener(@ComponentImport EventPublisher eventPublisher, @ComponentImport HttpClient httpClient, @ComponentImport NavBuilder navBuilder, WebHookConfigurationDao webHookConfigurationDao)
 	{
 		this.eventPublisher = eventPublisher;
 		this.httpClient = httpClient;
+		this.navBuilder = navBuilder;
 		this.webHookConfigurationDao = webHookConfigurationDao;
 		eventPublisher.register(this);
 	}
@@ -84,7 +87,10 @@ public class PullRequestListener implements DisposableBean
 	private void sendPullRequestEvent(PullRequestEvent event, EventType eventType) throws IOException
 	{
 		BitbucketServerPullRequestEvent pullRequestEvent = Events.createPullrequestEvent(event);
-		sendEvents(pullRequestEvent, event.getPullRequest().getToRef().getRepository(), eventType);
+		Repository repository = event.getPullRequest().getToRef().getRepository();
+		String prUrl = navBuilder.repo(repository).pullRequest(event.getPullRequest().getId()).buildAbsolute();
+		pullRequestEvent.getPullrequest().setLink(prUrl);
+		sendEvents(pullRequestEvent, repository, eventType);
 	}
 
 	private void sendEvents(Object event, Repository repo, EventType eventType) throws IOException
