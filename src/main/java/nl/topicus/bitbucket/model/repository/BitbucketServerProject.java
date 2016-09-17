@@ -25,9 +25,7 @@ package nl.topicus.bitbucket.model.repository;
 
 public class BitbucketServerProject
 {
-
 	private String key;
-
 	private String name;
 
 	public String getKey()

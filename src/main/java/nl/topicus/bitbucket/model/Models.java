@@ -39,6 +39,8 @@ public final class Models
 		pullRequestType.setId(String.valueOf(pullRequest.getId()));
 		pullRequestType.setFromRef(createSource(pullRequest.getFromRef()));
 		pullRequestType.setToRef(createSource(pullRequest.getToRef()));
+		pullRequestType.setTitle(pullRequest.getTitle());
+		pullRequestType.setAuthorLogin(pullRequest.getAuthor().getUser().getDisplayName());
 		return pullRequestType;
 	}
 

@@ -2,9 +2,7 @@ package nl.topicus.bitbucket.model.branch;
 
 public class BitbucketServerBranch
 {
-
 	private String displayId;
-
 	private String latestCommit;
 
 	public BitbucketServerBranch()
