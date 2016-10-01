@@ -109,6 +109,11 @@
             <version>1</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.atlassian.plugins.rest</groupId>
+            <artifactId>atlassian-rest-common</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- WIRED TEST RUNNER DEPENDENCIES -->
         <dependency>

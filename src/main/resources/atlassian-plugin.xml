@@ -47,4 +47,8 @@
         <tooltip>Hooray, we have a tab!</tooltip>
     </web-item>
 
+    <rest key="nl.topicus.bitbucket.api.WebhookResource" path="/webhook" version="1.0">
+        <description>Provides a Rest service for so other components can CRUD webhooks.</description>
+    </rest>
+
 </atlassian-plugin>

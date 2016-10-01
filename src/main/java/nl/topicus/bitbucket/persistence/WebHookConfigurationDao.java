@@ -9,45 +9,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WebHookConfigurationDao
-{
-	private final ActiveObjects activeObjects;
+public class WebHookConfigurationDao {
+    private final ActiveObjects activeObjects;
 
-	@Autowired
-	public WebHookConfigurationDao(@ComponentImport ActiveObjects activeObjects)
-	{
-		this.activeObjects = activeObjects;
-	}
+    @Autowired
+    public WebHookConfigurationDao(@ComponentImport ActiveObjects activeObjects) {
+        this.activeObjects = activeObjects;
+    }
 
-	public WebHookConfiguration[] getWebHookConfigurations(Repository repo)
-	{
-		return activeObjects.find(WebHookConfiguration.class, Query.select().where("REPO_ID = ?", repo.getId()));
-	}
+    public WebHookConfiguration[] getWebHookConfigurations(Repository repo) {
+        return activeObjects.find(WebHookConfiguration.class, Query.select().where("REPO_ID = ?", repo.getId()));
+    }
 
-	public WebHookConfiguration[] getEnabledWebHookConfigurations(Repository repo)
-	{
-		return activeObjects.find(WebHookConfiguration.class, Query.select().where("REPO_ID = ? AND IS_ENABLED = ?", repo.getId(), true));
-	}
+    public WebHookConfiguration[] getEnabledWebHookConfigurations(Repository repo) {
+        return activeObjects.find(WebHookConfiguration.class, Query.select().where("REPO_ID = ? AND IS_ENABLED = ?", repo.getId(), true));
+    }
 
-	public WebHookConfiguration getWebHookConfigurations(String id)
-	{
-		return activeObjects.get(WebHookConfiguration.class, Integer.valueOf(id));
-	}
+    public WebHookConfiguration getWebHookConfigurations(String id) {
+        return activeObjects.get(WebHookConfiguration.class, Integer.valueOf(id));
+    }
 
-	public WebHookConfiguration createOrUpdateWebHookConfiguration(Repository rep, String id, String title, String url, boolean enabled)
-	{
-		if (id != null)
-		{
-			WebHookConfiguration webHookConfiguration = getWebHookConfigurations(id);
-			if (webHookConfiguration != null && webHookConfiguration.getRepositoryId().equals(rep.getId()))
-			{
-				webHookConfiguration.setTitle(title);
-				webHookConfiguration.setEnabled(enabled);
-				webHookConfiguration.setURL(url);
-				webHookConfiguration.save();
-				return webHookConfiguration;
-			}
-		}
-		return activeObjects.create(WebHookConfiguration.class, new DBParam("REPO_ID", rep.getId()), new DBParam("TITLE", title), new DBParam("URL", url), new DBParam("IS_ENABLED", enabled));
-	}
+    public void deleteWebhookConfiguration(WebHookConfiguration webHookConfiguration) {
+        activeObjects.delete(webHookConfiguration);
+    }
+
+    public WebHookConfiguration createOrUpdateWebHookConfiguration(Repository rep, String id, String title, String url, boolean enabled) {
+        if (id != null) {
+            WebHookConfiguration webHookConfiguration = getWebHookConfigurations(id);
+            if (webHookConfiguration != null && webHookConfiguration.getRepositoryId().equals(rep.getId())) {
+                webHookConfiguration.setTitle(title);
+                webHookConfiguration.setEnabled(enabled);
+                webHookConfiguration.setURL(url);
+                webHookConfiguration.save();
+                return webHookConfiguration;
+            }
+        }
+        return activeObjects.create(WebHookConfiguration.class, new DBParam("REPO_ID", rep.getId()), new DBParam("TITLE", title), new DBParam("URL", url), new DBParam("IS_ENABLED", enabled));
+    }
 }
