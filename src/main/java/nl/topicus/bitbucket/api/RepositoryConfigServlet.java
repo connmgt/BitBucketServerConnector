@@ -87,6 +87,18 @@ public class RepositoryConfigServlet extends HttpServlet
 		}
 		else
 		{
+			if (queryParams.stream().anyMatch(param -> param.getName().equals("delete")))
+			{
+				Optional<NameValuePair> id = queryParams.stream().filter(param -> param.getName().equals("id")).findFirst();
+				if (id.isPresent())
+				{
+					WebHookConfiguration webHookConfiguration = webHookConfigurationDao.getWebHookConfigurations(id.get().getValue());
+					if (webHookConfiguration != null && webHookConfiguration.getRepositoryId().equals(repository.getId()))
+					{
+						webHookConfigurationDao.deleteWebhookConfiguration(webHookConfiguration);
+					}
+				}
+			}
 			WebHookConfiguration[] webHookConfigurations = webHookConfigurationDao.getWebHookConfigurations(repository);
 			String template = "nl.topicus.templates.repositorySettings";
 			render(resp, template, ImmutableMap.<String, Object>builder().put("repository", repository).put("configurations", webHookConfigurations).build());
