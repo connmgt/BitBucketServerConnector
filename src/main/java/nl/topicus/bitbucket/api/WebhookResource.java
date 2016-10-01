@@ -36,7 +36,7 @@ public class WebhookResource {
         if (repo == null) {
             throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND).entity("Repository not found").build());
         }
-        return Arrays.asList(webHookConfigurationDao.getWebHookConfigurations(repo)).stream().map(WebHookConfigurationModel::new).collect(Collectors.toList());
+        return Arrays.stream(webHookConfigurationDao.getWebHookConfigurations(repo)).map(WebHookConfigurationModel::new).collect(Collectors.toList());
     }
 
     @PUT
