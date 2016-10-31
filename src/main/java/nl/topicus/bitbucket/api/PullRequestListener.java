@@ -4,6 +4,7 @@ import com.atlassian.bitbucket.event.pull.PullRequestEvent;
 import com.atlassian.bitbucket.event.pull.PullRequestMergedEvent;
 import com.atlassian.bitbucket.event.pull.PullRequestOpenedEvent;
 import com.atlassian.bitbucket.event.pull.PullRequestReopenedEvent;
+import com.atlassian.bitbucket.event.pull.PullRequestRescopedEvent;
 import com.atlassian.bitbucket.event.pull.PullRequestUpdatedEvent;
 import com.atlassian.bitbucket.event.repository.AbstractRepositoryRefsChangedEvent;
 import com.atlassian.bitbucket.nav.NavBuilder;
@@ -67,6 +68,12 @@ public class PullRequestListener implements DisposableBean
 
 	@EventListener
 	public void reopenedEvent(PullRequestReopenedEvent event) throws IOException
+	{
+		sendPullRequestEvent(event, EventType.PULL_REQUEST_UPDATED);
+	}
+
+	@EventListener
+	public void rescopedEvent(PullRequestRescopedEvent event) throws IOException
 	{
 		sendPullRequestEvent(event, EventType.PULL_REQUEST_UPDATED);
 	}
