@@ -6,6 +6,7 @@ import net.java.ao.Mutator;
 import net.java.ao.Preload;
 import net.java.ao.schema.Default;
 import net.java.ao.schema.NotNull;
+import net.java.ao.schema.StringLength;
 import net.java.ao.schema.Table;
 
 @Table("WHConfig")
@@ -24,6 +25,7 @@ public interface WebHookConfiguration extends Entity
 	String getURL();
 
 	@Mutator("URL")
+	@StringLength(StringLength.UNLIMITED)
 	void setURL(String URL);
 
 	@NotNull
