@@ -48,10 +48,10 @@ public class PullRequestListener implements DisposableBean
 	private PullRequestService pullRequestService;
 
 	@Autowired
-	public PullRequestListener(@ComponentImport EventPublisher eventPublisher, @ComponentImport PullRequestService pullRequestService, @ComponentImport HttpClient httpClient, @ComponentImport NavBuilder navBuilder, WebHookConfigurationDao webHookConfigurationDao)
-	{
+    public PullRequestListener(@ComponentImport EventPublisher eventPublisher, @ComponentImport PullRequestService pullRequestService, AtlassianHttpClientFactory httpClientFactory,  @ComponentImport NavBuilder navBuilder, WebHookConfigurationDao webHookConfigurationDao)
+    {
 		this.eventPublisher = eventPublisher;
-		this.httpClient = httpClient;
+		this.httpClient = httpClientFactory.create();
 		this.navBuilder = navBuilder;
 		this.webHookConfigurationDao = webHookConfigurationDao;
 		this.pullRequestService = pullRequestService;
