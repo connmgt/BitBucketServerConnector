@@ -21,48 +21,56 @@
     <header class="aui-page-header">
         <div class="aui-page-header-inner">
             <div class="aui-page-header-main">
-                <h2>Webhooks for Repo: {$repository.slug}</h2>
+                <h2>Webhooks</h2>
             </div>
             <div class="aui-page-header-actions">
-                <div class="aui-buttons">
-                    <a href="?edit" class="aui-button">Add webhook</a>
-                </div>
             </div>
         </div>
     </header>
-   <table class="aui">
-       <thead>
-       <tr>
-           <th id="enabled">Enabled</th>
-           <th id="title">Title</th>
-           <th id="url">Url</th>
-           <th id="action">Action</th>
-       </tr>
-       </thead>
-       <tbody>
-       {foreach $configuration in $configurations}
-           <tr>
-               <td headers="enabled">{if $configuration.enabled}true{else}false{/if}</td>
-               <td headers="title">{$configuration.title}</td>
-               <td headers="url">{$configuration.URL}</td>
-               <td class="action" headers="action">
-                   <ul class="menu">
-                       <li>
-                           <a href="?edit&id={$configuration.ID}">edit</a>
-                       </li>
-                       <li>
-                           <a href="?delete&id={$configuration.ID}">delete</a>
-                       </li>
-                   </ul>
-               </td>
-           </tr>
-       {ifempty}
+    <div class="page-description">
+        <p>Webhooks allow you to extend what Bitbucket does when the repository changes (for example, new code is pushed or a pull request is merged).</p>
+        <p/>
+    </div>
+    <div>
+        <p>
+            <a href="?edit" class="aui-button  aui-button-primary">Add webhook</a>
+        </p>
+        <table class="aui">
+            <thead>
             <tr>
-                <td colspan="4" style="text-align:center;">No webhooks configured.</td>
+                <th id="title">Title</th>
+                <th id="url">URL</th>
+                <th id="action">Actions</th>
             </tr>
-       {/foreach}
-       </tbody>
-   </table>
+            </thead>
+            <tbody>
+            {foreach $configuration in $configurations}
+                <tr>
+                    <td headers="title">
+                    {$configuration.title}
+                    {if $configuration.enabled}{else}<span style="margin-left:5px;" class="aui-lozenge aui-lozenge-default">Inactive</span>
+                    {/if}
+                    </td>
+                    <td headers="url">{$configuration.URL}</td>
+                    <td class="action" headers="action">
+                        <ul class="menu">
+                            <li>
+                                <a href="?edit&id={$configuration.ID}">Edit</a>
+                            </li>
+                            <li>
+                                <a href="?delete&id={$configuration.ID}">Delete</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {ifempty}
+                 <tr>
+                     <td colspan="4" style="text-align:center;">No webhooks configured.</td>
+                 </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
 {/template}
@@ -85,7 +93,14 @@
        <header class="aui-page-header">
            <div class="aui-page-header-inner">
                <div class="aui-page-header-main">
-                   <h2>Webhooks for Repo: {$repository.slug}</h2>
+                   <ol class="aui-nav aui-nav-breadcrumbs">
+                     <li><a class="active" href="?">Webhooks</a></li>
+                   </ol>
+                   {if $configuration}
+                   <h2>Edit {$configuration.title}</h2>
+                   {else}
+                   <h2>Add new webhook</h2>
+                   {/if}
                </div>
            </div>
        </header>
@@ -102,17 +117,17 @@
                {/call}
                {call aui.form.textField}
                  {param id: 'url' /}
-                 {param legendContent: 'Url' /}
-                 {param labelContent: 'url' /}
+                 {param legendContent: 'URL' /}
+                 {param labelContent: 'URL' /}
                  {param value:  $configuration ? $configuration.URL : '' /}
                {/call}
-
                {call aui.form.checkboxField}
-                 {param legendContent: 'Enabled' /}
+                 {param legendContent: 'Status' /}
                  {param fields: [[
                    'id': 'enabled',
-                   'labelText': 'enabled',
-                   'isChecked': $configuration ? $configuration.enabled : true
+                   'labelText': 'Active',
+                   'isChecked': $configuration ? $configuration.enabled : true,
+                   'descriptionText': 'Inactive webhooks don\'t trigger requests'
                  ]] /}
                {/call}
                <br />
@@ -121,7 +136,13 @@
                    {call aui.form.submit}
                      {param id: 'submit' /}
                      {param text: 'Save' /}
-                     {param type: 'submit' /}
+                     {param type: 'primary' /}
+                   {/call}
+                   {call aui.form.button}
+                     {param id: 'cancel' /}
+                     {param text: 'Cancel' /}
+                     {param type: 'link' /}
+                     {param href: '?' /}
                    {/call}
                  {/param}
                {/call}
