@@ -25,27 +25,27 @@ package nl.topicus.bitbucket.events;
 
 import com.atlassian.bitbucket.repository.RefType;
 import com.atlassian.bitbucket.repository.StandardRefType;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import java.util.Locale;
 
 public class BitbucketPushChange {
-    private Object _new;
-    private Object _old;
+    private State _new;
+    private State _old;
     private boolean created;
     private boolean closed;
 
-    public Object getNew() {
+    public State getNew() {
         return _new;
     }
 
-    public void setNew(Object _new) {
+    public void setNew(State _new) {
         this._new = _new;
     }
 
-    public Object getOld() {
+    public State getOld() {
         return _old;
     }
 
-    public void setOld(Object _old) {
+    public void setOld(State _old) {
         this._old = _old;
     }
 
@@ -97,7 +97,7 @@ public class BitbucketPushChange {
         public void setType(RefType type) {
             for (StandardRefType t : StandardRefType.values()) {
                 if (t.equals(type)) {
-                    this.type = t.name().toLowerCase();
+                    this.type = t.name().toLowerCase(Locale.ENGLISH);
                     return;
                 }
             }
