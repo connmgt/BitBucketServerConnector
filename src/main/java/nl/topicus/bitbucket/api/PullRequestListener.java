@@ -11,6 +11,7 @@ import com.atlassian.bitbucket.nav.NavBuilder;
 import com.atlassian.bitbucket.pull.PullRequest;
 import com.atlassian.bitbucket.pull.PullRequestService;
 import com.atlassian.bitbucket.repository.Repository;
+import com.atlassian.bitbucket.server.ApplicationPropertiesService;
 import com.atlassian.event.api.EventListener;
 import com.atlassian.event.api.EventPublisher;
 import com.atlassian.httpclient.api.HttpClient;
@@ -46,15 +47,22 @@ public class PullRequestListener implements DisposableBean
 	private NavBuilder navBuilder;
 	private WebHookConfigurationDao webHookConfigurationDao;
 	private PullRequestService pullRequestService;
+	private ApplicationPropertiesService applicationPropertiesService;
 
 	@Autowired
-    public PullRequestListener(@ComponentImport EventPublisher eventPublisher, @ComponentImport PullRequestService pullRequestService, AtlassianHttpClientFactory httpClientFactory,  @ComponentImport NavBuilder navBuilder, WebHookConfigurationDao webHookConfigurationDao)
-    {
+	public PullRequestListener(@ComponentImport EventPublisher eventPublisher,
+							   @ComponentImport PullRequestService pullRequestService,
+                               AtlassianHttpClientFactory httpClientFactory,
+							   @ComponentImport NavBuilder navBuilder,
+							   @ComponentImport ApplicationPropertiesService applicationPropertiesService,
+							   WebHookConfigurationDao webHookConfigurationDao)
+	{
 		this.eventPublisher = eventPublisher;
 		this.httpClient = httpClientFactory.create();
 		this.navBuilder = navBuilder;
 		this.webHookConfigurationDao = webHookConfigurationDao;
 		this.pullRequestService = pullRequestService;
+		this.applicationPropertiesService = applicationPropertiesService;
 		eventPublisher.register(this);
 	}
 
@@ -101,13 +109,13 @@ public class PullRequestListener implements DisposableBean
 	@EventListener
 	public void repoChangedEvent(AbstractRepositoryRefsChangedEvent event) throws IOException
 	{
-		BitbucketPushEvent pushEvent = Events.createPushEvent(event);
+		BitbucketPushEvent pushEvent = Events.createPushEvent(event, applicationPropertiesService);
 		sendEvents(pushEvent, event.getRepository(), EventType.REPO_PUSH);
 	}
 
 	private void sendPullRequestEvent(PullRequestEvent event, EventType eventType) throws IOException
 	{
-		BitbucketServerPullRequestEvent pullRequestEvent = Events.createPullrequestEvent(event);
+		BitbucketServerPullRequestEvent pullRequestEvent = Events.createPullrequestEvent(event, applicationPropertiesService);
 		Repository repository = event.getPullRequest().getToRef().getRepository();
 		String prUrl = navBuilder.repo(repository).pullRequest(event.getPullRequest().getId()).buildAbsolute();
 		pullRequestEvent.getPullrequest().setLink(prUrl);
