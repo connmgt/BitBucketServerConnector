@@ -25,14 +25,17 @@ package nl.topicus.bitbucket.events;
 
 import java.util.List;
 
-public class BitbucketPushDetail {
+public class BitbucketPushDetail
+{
     private List<BitbucketPushChange> changes;
 
-    public List<BitbucketPushChange> getChanges() {
+    public List<BitbucketPushChange> getChanges()
+    {
         return changes;
     }
 
-    public void setChanges(List<BitbucketPushChange> changes) {
+    public void setChanges(List<BitbucketPushChange> changes)
+    {
         this.changes = changes;
     }
 }

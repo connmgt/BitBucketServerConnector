@@ -25,78 +25,98 @@ package nl.topicus.bitbucket.events;
 
 import com.atlassian.bitbucket.repository.RefType;
 import com.atlassian.bitbucket.repository.StandardRefType;
+
 import java.util.Locale;
 
-public class BitbucketPushChange {
+public class BitbucketPushChange
+{
     private State _new;
     private State _old;
     private boolean created;
     private boolean closed;
 
-    public State getNew() {
+    public State getNew()
+    {
         return _new;
     }
 
-    public void setNew(State _new) {
+    public void setNew(State _new)
+    {
         this._new = _new;
     }
 
-    public State getOld() {
+    public State getOld()
+    {
         return _old;
     }
 
-    public void setOld(State _old) {
+    public void setOld(State _old)
+    {
         this._old = _old;
     }
 
-    public boolean isCreated() {
+    public boolean isCreated()
+    {
         return created;
     }
 
-    public void setCreated(boolean created) {
+    public void setCreated(boolean created)
+    {
         this.created = created;
     }
 
-    public boolean isClosed() {
+    public boolean isClosed()
+    {
         return closed;
     }
 
-    public void setClosed(boolean closed) {
+    public void setClosed(boolean closed)
+    {
         this.closed = closed;
     }
 
-    public static class State {
+    public static class State
+    {
         private String type;
         private String name;
         private Target target;
 
-        public String getType() {
+        public String getType()
+        {
             return type;
         }
 
-        public void setType(String type) {
+        public void setType(String type)
+        {
             this.type = type;
         }
 
-        public String getName() {
+        public String getName()
+        {
             return name;
         }
 
-        public void setName(String name) {
+        public void setName(String name)
+        {
             this.name = name;
         }
 
-        public Target getTarget() {
+        public Target getTarget()
+        {
             return target;
         }
 
-        public void setTarget(Target target) {
+        public void setTarget(Target target)
+        {
             this.target = target;
         }
 
-        public void setType(RefType type) {
-            for (StandardRefType t : StandardRefType.values()) {
-                if (t.equals(type)) {
+        public void setType(RefType type)
+        {
+            for (StandardRefType t : StandardRefType.values())
+            {
+                if (t.equals(type))
+                {
                     this.type = t.name().toLowerCase(Locale.ENGLISH);
                     return;
                 }
@@ -104,30 +124,37 @@ public class BitbucketPushChange {
             this.type = null;
         }
 
-        public static class Target {
+        public static class Target
+        {
             private String type = "commit";
             private String hash;
 
-            public Target() {
+            public Target()
+            {
             }
 
-            public Target(String hash) {
+            public Target(String hash)
+            {
                 this.hash = hash;
             }
 
-            public String getType() {
+            public String getType()
+            {
                 return type;
             }
 
-            public void setType(String type) {
+            public void setType(String type)
+            {
                 this.type = type;
             }
 
-            public String getHash() {
+            public String getHash()
+            {
                 return hash;
             }
 
-            public void setHash(String hash) {
+            public void setHash(String hash)
+            {
                 this.hash = hash;
             }
         }

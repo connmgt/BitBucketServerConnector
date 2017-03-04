@@ -31,38 +31,40 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BitbucketServerPullRequestEvent
 {
-	private BitbucketServerRepositoryOwner actor;
+    private BitbucketServerRepositoryOwner actor;
 
-	private BitbucketServerPullRequest pullrequest;
+    private BitbucketServerPullRequest pullrequest;
 
-	private BitbucketServerRepository repository;
+    private BitbucketServerRepository repository;
 
-	public BitbucketServerRepositoryOwner getActor() {
-		return actor;
-	}
+    public BitbucketServerRepositoryOwner getActor()
+    {
+        return actor;
+    }
 
-	public void setActor(BitbucketServerRepositoryOwner actor) {
-		this.actor = actor;
-	}
+    public void setActor(BitbucketServerRepositoryOwner actor)
+    {
+        this.actor = actor;
+    }
 
-	public BitbucketServerPullRequest getPullrequest()
-	{
-		return pullrequest;
-	}
+    public BitbucketServerPullRequest getPullrequest()
+    {
+        return pullrequest;
+    }
 
-	public void setPullrequest(BitbucketServerPullRequest pullrequest)
-	{
-		this.pullrequest = pullrequest;
-	}
+    public void setPullrequest(BitbucketServerPullRequest pullrequest)
+    {
+        this.pullrequest = pullrequest;
+    }
 
-	public BitbucketServerRepository getRepository()
-	{
-		return repository;
-	}
+    public BitbucketServerRepository getRepository()
+    {
+        return repository;
+    }
 
-	public void setRepository(BitbucketServerRepository repository)
-	{
-		this.repository = repository;
-	}
+    public void setRepository(BitbucketServerRepository repository)
+    {
+        this.repository = repository;
+    }
 
 }

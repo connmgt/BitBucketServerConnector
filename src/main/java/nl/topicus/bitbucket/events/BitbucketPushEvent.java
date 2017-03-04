@@ -30,36 +30,39 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BitbucketPushEvent
 {
+    private BitbucketServerRepositoryOwner actor;
 
-	private BitbucketServerRepositoryOwner actor;
+    private BitbucketServerRepository repository;
 
-	private BitbucketServerRepository repository;
+    private BitbucketPushDetail push;
 
-	private BitbucketPushDetail push;
+    public BitbucketServerRepositoryOwner getActor()
+    {
+        return actor;
+    }
 
-	public BitbucketServerRepositoryOwner getActor() {
-		return actor;
-	}
+    public void setActor(BitbucketServerRepositoryOwner actor)
+    {
+        this.actor = actor;
+    }
 
-	public void setActor(BitbucketServerRepositoryOwner actor) {
-		this.actor = actor;
-	}
+    public BitbucketServerRepository getRepository()
+    {
+        return repository;
+    }
 
-	public BitbucketServerRepository getRepository()
-	{
-		return repository;
-	}
+    public void setRepository(BitbucketServerRepository repository)
+    {
+        this.repository = repository;
+    }
 
-	public void setRepository(BitbucketServerRepository repository)
-	{
-		this.repository = repository;
-	}
+    public BitbucketPushDetail getPush()
+    {
+        return push;
+    }
 
-	public BitbucketPushDetail getPush() {
-		return push;
-	}
-
-	public void setPush(BitbucketPushDetail push) {
-		this.push = push;
-	}
+    public void setPush(BitbucketPushDetail push)
+    {
+        this.push = push;
+    }
 }
