@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016, CloudBees, Inc.
+ * Copyright (c) 2017, CloudBees, Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,46 +23,16 @@
  */
 package nl.topicus.bitbucket.events;
 
-import nl.topicus.bitbucket.model.pullrequest.BitbucketServerPullRequest;
-import nl.topicus.bitbucket.model.repository.BitbucketServerRepository;
-import nl.topicus.bitbucket.model.repository.BitbucketServerRepositoryOwner;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class BitbucketServerPullRequestEvent
-{
-	private BitbucketServerRepositoryOwner actor;
+public class BitbucketPushDetail {
+    private List<BitbucketPushChange> changes;
 
-	private BitbucketServerPullRequest pullrequest;
+    public List<BitbucketPushChange> getChanges() {
+        return changes;
+    }
 
-	private BitbucketServerRepository repository;
-
-	public BitbucketServerRepositoryOwner getActor() {
-		return actor;
-	}
-
-	public void setActor(BitbucketServerRepositoryOwner actor) {
-		this.actor = actor;
-	}
-
-	public BitbucketServerPullRequest getPullrequest()
-	{
-		return pullrequest;
-	}
-
-	public void setPullrequest(BitbucketServerPullRequest pullrequest)
-	{
-		this.pullrequest = pullrequest;
-	}
-
-	public BitbucketServerRepository getRepository()
-	{
-		return repository;
-	}
-
-	public void setRepository(BitbucketServerRepository repository)
-	{
-		this.repository = repository;
-	}
-
+    public void setChanges(List<BitbucketPushChange> changes) {
+        this.changes = changes;
+    }
 }

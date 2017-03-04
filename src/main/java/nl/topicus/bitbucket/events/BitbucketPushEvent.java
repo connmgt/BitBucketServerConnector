@@ -24,13 +24,26 @@
 package nl.topicus.bitbucket.events;
 
 import nl.topicus.bitbucket.model.repository.BitbucketServerRepository;
+import nl.topicus.bitbucket.model.repository.BitbucketServerRepositoryOwner;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BitbucketPushEvent
 {
 
+	private BitbucketServerRepositoryOwner actor;
+
 	private BitbucketServerRepository repository;
+
+	private BitbucketPushDetail push;
+
+	public BitbucketServerRepositoryOwner getActor() {
+		return actor;
+	}
+
+	public void setActor(BitbucketServerRepositoryOwner actor) {
+		this.actor = actor;
+	}
 
 	public BitbucketServerRepository getRepository()
 	{
@@ -42,4 +55,11 @@ public class BitbucketPushEvent
 		this.repository = repository;
 	}
 
+	public BitbucketPushDetail getPush() {
+		return push;
+	}
+
+	public void setPush(BitbucketPushDetail push) {
+		this.push = push;
+	}
 }
