@@ -1,6 +1,5 @@
 package nl.topicus.bitbucket.api;
 
-import com.atlassian.bitbucket.nav.NavBuilder;
 import com.atlassian.bitbucket.repository.Repository;
 import com.atlassian.bitbucket.repository.RepositoryService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
@@ -140,10 +139,21 @@ public class RepositoryConfigServlet extends HttpServlet
 		String id = req.getParameter("id");
 		boolean enabled = "on".equalsIgnoreCase(req.getParameter("enabled"));
 
+		boolean isTagCreated = "on".equalsIgnoreCase(req.getParameter("isTagCreated"));
+		boolean isBranchDeleted = "on".equalsIgnoreCase(req.getParameter("isBranchDeleted"));
+		boolean isBranchCreated = "on".equalsIgnoreCase(req.getParameter("isBranchCreated"));
+		boolean isRepoPush = "on".equalsIgnoreCase(req.getParameter("isRepoPush"));
+		boolean isPrDeclined = "on".equalsIgnoreCase(req.getParameter("isPrDeclined"));
+		boolean isPrRescoped = "on".equalsIgnoreCase(req.getParameter("isPrRescoped"));
+		boolean isPrMerged = "on".equalsIgnoreCase(req.getParameter("isPrMerged"));
+		boolean isPrReopened = "on".equalsIgnoreCase(req.getParameter("isPrReopened"));
+		boolean isPrUpdated = "on".equalsIgnoreCase(req.getParameter("isPrUpdated"));
+		boolean isPrCreated = "on".equalsIgnoreCase(req.getParameter("isPrCreated"));
+
 		WebHookConfiguration webHookConfiguration = webHookConfigurationDao.createOrUpdateWebHookConfiguration(repository, id, title, url, enabled);
 		if (webHookConfiguration == null)
 		{
-			webHookConfiguration = new DummyWebHookConfiguration(title, url, enabled);
+			webHookConfiguration = new DummyWebHookConfiguration(title, url, enabled,isTagCreated, isBranchDeleted, isBranchCreated, isRepoPush, isPrDeclined, isPrRescoped, isPrMerged, isPrReopened, isPrUpdated, isPrCreated);
 			String template = "nl.topicus.templates.edit";
 			render(resp, template, ImmutableMap.<String, Object>builder().put("repository", repository).put("configuration", webHookConfiguration).build());
 		}

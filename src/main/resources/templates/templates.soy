@@ -130,6 +130,93 @@
                    'descriptionText': 'Inactive webhooks don\'t trigger requests'
                  ]] /}
                {/call}
+             {/param}
+           {/call}
+           {call aui.group.group}
+             {param content}
+                <h3>Repository events:</h3>
+                {call aui.form.checkboxField}
+                 {param legendContent: '' /}
+                 {param fields: [[
+                   'id': 'isRepoPush',
+                   'labelText': 'On push',
+                   'isChecked': $configuration ? $configuration.isRepoPush : false
+                 ]] /}
+                {/call}
+                {call aui.form.checkboxField}
+                 {param legendContent: '' /}
+                 {param fields: [[
+                   'id': 'isBranchCreated',
+                   'labelText': 'Brach created',
+                   'isChecked': $configuration ? $configuration.isBranchCreated : false
+                 ]] /}
+                {/call}
+                {call aui.form.checkboxField}
+                 {param legendContent: '' /}
+                 {param fields: [[
+                   'id': 'isBranchDeleted',
+                   'labelText': 'Brach deleted',
+                   'isChecked': $configuration ? $configuration.isBranchDeleted : false
+                 ]] /}
+                {/call}
+                {call aui.form.checkboxField}
+                 {param legendContent: '' /}
+                 {param fields: [[
+                   'id': 'isTagCreated',
+                   'labelText': 'Tag Created',
+                   'isChecked': $configuration ? $configuration.isTagCreated : false
+                 ]] /}
+                {/call}
+
+             {/param}
+           {/call}
+           {call aui.group.group}
+             {param content}
+                <h3>Pull request events:</h3>
+                {call aui.form.checkboxField}
+                 {param legendContent: '' /}
+                 {param fields: [[
+                   'id': 'isPrCreated',
+                   'labelText': 'Pull request created',
+                   'isChecked': $configuration ? $configuration.isPrCreated : false
+                 ]] /}
+                {/call}
+                {call aui.form.checkboxField}
+                 {param legendContent: '' /}
+                 {param fields: [[
+                   'id': 'isPrUpdated',
+                   'labelText': 'Pull request updated',
+                   'isChecked': $configuration ? $configuration.isPrUpdated : false
+                 ]] /}
+                {/call}
+                {call aui.form.checkboxField}
+                 {param legendContent: '' /}
+                 {param fields: [[
+                   'id': 'isPrMerged',
+                   'labelText': 'Pull request merged',
+                   'isChecked': $configuration ? $configuration.isPrMerged : false
+                 ]] /}
+                {/call}
+                {call aui.form.checkboxField}
+                 {param legendContent: '' /}
+                 {param fields: [[
+                   'id': 'isPrReopened',
+                   'labelText': 'Pull request re-opened',
+                   'isChecked': $configuration ? $configuration.isPrReopened : false
+                 ]] /}
+                {/call}
+                {call aui.form.checkboxField}
+                 {param legendContent: '' /}
+                 {param fields: [[
+                   'id': 'isPrRescoped',
+                   'labelText': 'Pull request re-scoped',
+                   'isChecked': $configuration ? $configuration.isPrRescoped : false
+                 ]] /}
+                {/call}
+             {/param}
+           {/call}
+           {call aui.group.group}
+             {param content}
                <br />
                {call aui.form.buttons}
                  {param content}

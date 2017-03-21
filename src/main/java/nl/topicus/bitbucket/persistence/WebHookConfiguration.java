@@ -42,4 +42,86 @@ public interface WebHookConfiguration extends Entity
 
 	@Mutator("IS_ENABLED")
 	void setEnabled(boolean isEnabled);
+
+	@NotNull
+	@Default("true")
+	@Accessor("PR_CREATED")
+	boolean isPrCreated();
+
+	@Mutator("PR_CREATED")
+	void setPrCreated(boolean isPrCreated);
+
+	@NotNull
+	@Default("true")
+	@Accessor("PR_UPDATED")
+	boolean isPrUpdated();
+
+	@Mutator("PR_UPDATED")
+	void setPrUpdated(boolean isPrUpdated);
+
+	@NotNull
+	@Default("true")
+	@Accessor("PR_REOPENED")
+	boolean isPrReopened();
+
+	@Mutator("PR_REOPENED")
+	void setPrReopened(boolean isPrReopened);
+
+	@NotNull
+	@Default("true")
+	@Accessor("PR_MERGED")
+	boolean isPrMerged();
+
+	@Mutator("PR_MERGED")
+	void setPrMerged(boolean isPrMerged);
+
+	@NotNull
+	@Default("true")
+	@Accessor("PR_RESCOPED")
+	boolean isPrRescoped();
+
+	@Mutator("PR_RESCOPED")
+	void setPrRescoped(boolean isPrRescoped);
+
+	@NotNull
+	@Default("true")
+	@Accessor("PR_DECLINED")
+	boolean isPrDeclined();
+
+	@Mutator("PR_DECLINED")
+	void setPrDeclined(boolean isPrDeclined);
+
+	@NotNull
+	@Default("true")
+	@Accessor("REPO_PUSH")
+	boolean isRepoPush();
+
+	@Mutator("REPO_PUSH")
+	void setRepoPush(boolean isRepoPush);
+
+	@NotNull
+	@Default("true")
+	@Accessor("BRANCH_CREATED")
+	boolean isBranchCreated();
+
+	@Mutator("BRANCH_CREATED")
+	void setBranchCreated(boolean isBranchCreated);
+
+	@NotNull
+	@Default("true")
+	@Accessor("BRANCH_DELETED")
+	boolean isBranchDeleted();
+
+	@Mutator("BRANCH_DELETED")
+	void setBranchDeleted(boolean isBranchDeleted);
+
+	@NotNull
+	@Default("false")
+	@Accessor("TAG_CREATED")
+	boolean isTagCreated();
+
+	@Mutator("TAG_CRATED")
+	void setTagCreated(boolean isTagCreated);
+
+
 }
