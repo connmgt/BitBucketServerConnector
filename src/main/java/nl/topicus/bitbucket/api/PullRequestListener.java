@@ -1,12 +1,6 @@
 package nl.topicus.bitbucket.api;
 
-import com.atlassian.bitbucket.event.pull.PullRequestDeclinedEvent;
-import com.atlassian.bitbucket.event.pull.PullRequestEvent;
-import com.atlassian.bitbucket.event.pull.PullRequestMergedEvent;
-import com.atlassian.bitbucket.event.pull.PullRequestOpenedEvent;
-import com.atlassian.bitbucket.event.pull.PullRequestReopenedEvent;
-import com.atlassian.bitbucket.event.pull.PullRequestRescopedEvent;
-import com.atlassian.bitbucket.event.pull.PullRequestUpdatedEvent;
+import com.atlassian.bitbucket.event.pull.*;
 import com.atlassian.bitbucket.event.repository.AbstractRepositoryRefsChangedEvent;
 import com.atlassian.bitbucket.nav.NavBuilder;
 import com.atlassian.bitbucket.pull.PullRequest;
@@ -15,9 +9,6 @@ import com.atlassian.bitbucket.repository.Repository;
 import com.atlassian.bitbucket.server.ApplicationPropertiesService;
 import com.atlassian.event.api.EventListener;
 import com.atlassian.event.api.EventPublisher;
-import com.atlassian.httpclient.api.HttpClient;
-import com.atlassian.httpclient.api.Request;
-import com.atlassian.httpclient.api.Response;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import nl.topicus.bitbucket.events.BitbucketPushEvent;
 import nl.topicus.bitbucket.events.BitbucketServerPullRequestEvent;
@@ -25,12 +16,18 @@ import nl.topicus.bitbucket.events.EventType;
 import nl.topicus.bitbucket.events.Events;
 import nl.topicus.bitbucket.persistence.WebHookConfiguration;
 import nl.topicus.bitbucket.persistence.WebHookConfigurationDao;
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.message.BasicHeader;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -53,7 +50,7 @@ public class PullRequestListener implements DisposableBean
     @Autowired
     public PullRequestListener(@ComponentImport EventPublisher eventPublisher,
                                @ComponentImport PullRequestService pullRequestService,
-                               AtlassianHttpClientFactory httpClientFactory,
+                               HttpClientFactory httpClientFactory,
                                @ComponentImport NavBuilder navBuilder,
                                @ComponentImport ApplicationPropertiesService applicationPropertiesService,
                                WebHookConfigurationDao webHookConfigurationDao)
@@ -133,31 +130,34 @@ public class PullRequestListener implements DisposableBean
 
     private void sendEvents(Object event, Repository repo, EventType eventType) throws IOException
     {
-        Map<String, String> header = new HashMap<>();
-        header.put("X-Event-Key", eventType.getHeaderValue());
-        header.put("X-Bitbucket-Type", "server");
+        Header[] headers = {
+                new BasicHeader("X-Event-Key", eventType.getHeaderValue()),
+                new BasicHeader("X-Bitbucket-Type", "server")
+        };
 
         ObjectMapper mapper = new ObjectMapper();
         String jsonBody = mapper.writeValueAsString(event);
+        StringEntity bodyEntity = new StringEntity(jsonBody, ContentType.APPLICATION_JSON);
         for (WebHookConfiguration webHookConfiguration : webHookConfigurationDao.getEnabledWebHookConfigurations(repo))
         {
-            Request.Builder builder = httpClient.newRequest(webHookConfiguration.getURL());
-            builder.setHeaders(header);
-            builder.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            HttpPost post = new HttpPost(webHookConfiguration.getURL());
+            post.setHeaders(headers);
+            post.setEntity(bodyEntity);
             try
             {
-                Response response = builder.setEntity(jsonBody).post().get();
-                if (response.isError())
+                HttpResponse response = httpClient.execute(post);
+                int statusCode = response.getStatusLine().getStatusCode();
+                if (statusCode >= 400)
                 {
                     LOGGER.error(
                             "[repo: {}]| Something when wrong while posting (response code:{}) the following body to webhook: [{}({})] \n{}",
                             repo,
-                            response.getStatusCode(),
+                            statusCode,
                             webHookConfiguration.getTitle(),
                             webHookConfiguration.getURL(),
                             jsonBody);
                 }
-            } catch (InterruptedException | ExecutionException e)
+            } catch (IOException e)
             {
                 LOGGER.error(
                         "[repo: {}]| Something when wrong while posting the following body to webhook: [{}({})] \n{}",
