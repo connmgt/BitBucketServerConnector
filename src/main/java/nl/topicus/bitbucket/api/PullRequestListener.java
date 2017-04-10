@@ -1,7 +1,7 @@
 package nl.topicus.bitbucket.api;
 
 import com.atlassian.bitbucket.event.pull.*;
-import com.atlassian.bitbucket.event.repository.AbstractRepositoryRefsChangedEvent;
+import com.atlassian.bitbucket.event.repository.RepositoryRefsChangedEvent;
 import com.atlassian.bitbucket.nav.NavBuilder;
 import com.atlassian.bitbucket.pull.PullRequest;
 import com.atlassian.bitbucket.pull.PullRequestService;
@@ -112,7 +112,7 @@ public class PullRequestListener implements DisposableBean
     }
 
     @EventListener
-    public void repoChangedEvent(AbstractRepositoryRefsChangedEvent event) throws IOException
+    public void repoChangedEvent(RepositoryRefsChangedEvent event) throws IOException
     {
         BitbucketPushEvent pushEvent = Events.createPushEvent(event, applicationPropertiesService);
         sendEvents(pushEvent, event.getRepository(), EventType.REPO_PUSH);
