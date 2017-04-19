@@ -120,8 +120,6 @@ public interface WebHookConfiguration extends Entity
 	@Accessor("TAG_CREATED")
 	boolean isTagCreated();
 
-	@Mutator("TAG_CRATED")
+	@Mutator("TAG_CREATED")
 	void setTagCreated(boolean isTagCreated);
-
-
 }

@@ -200,6 +200,14 @@
                 {call aui.form.checkboxField}
                  {param legendContent: '' /}
                  {param fields: [[
+                   'id': 'isPrDeclined',
+                   'labelText': 'Pull request declined',
+                   'isChecked': $configuration ? $configuration.prDeclined : false
+                 ]] /}
+                {/call}
+                {call aui.form.checkboxField}
+                 {param legendContent: '' /}
+                 {param fields: [[
                    'id': 'isPrReopened',
                    'labelText': 'Pull request re-opened',
                    'isChecked': $configuration ? $configuration.prReopened : false

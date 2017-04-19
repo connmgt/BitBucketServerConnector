@@ -1,7 +1,11 @@
 package nl.topicus.bitbucket.api;
 
+import com.atlassian.bitbucket.event.branch.BranchCreatedEvent;
+import com.atlassian.bitbucket.event.branch.BranchDeletedEvent;
 import com.atlassian.bitbucket.event.pull.*;
+import com.atlassian.bitbucket.event.repository.RepositoryPushEvent;
 import com.atlassian.bitbucket.event.repository.RepositoryRefsChangedEvent;
+import com.atlassian.bitbucket.event.tag.TagCreatedEvent;
 import com.atlassian.bitbucket.nav.NavBuilder;
 import com.atlassian.bitbucket.pull.PullRequest;
 import com.atlassian.bitbucket.pull.PullRequestService;
@@ -76,7 +80,7 @@ public class PullRequestListener implements DisposableBean
     @EventListener
     public void reopenedEvent(PullRequestReopenedEvent event) throws IOException
     {
-        sendPullRequestEvent(event, EventType.PULL_REQUEST_UPDATED);
+        sendPullRequestEvent(event, EventType.PULL_REQUEST_REOPENED);
     }
 
     @EventListener
@@ -92,7 +96,7 @@ public class PullRequestListener implements DisposableBean
         {
             // canMerge forces the update of refs in the destination repository
             pullRequestService.canMerge(pullRequest.getToRef().getRepository().getId(), pullRequest.getId());
-            sendPullRequestEvent(event, EventType.PULL_REQUEST_UPDATED);
+            sendPullRequestEvent(event, EventType.PULL_REQUEST_RESCOPED);
         }
     }
 
@@ -109,10 +113,30 @@ public class PullRequestListener implements DisposableBean
     }
 
     @EventListener
-    public void repoChangedEvent(RepositoryRefsChangedEvent event) throws IOException
+    public void branchDeletedEvent(BranchDeletedEvent event) throws IOException {
+        repoChangedEvent(event, EventType.BRANCH_DELETED);
+    }
+
+    @EventListener
+    public void branchCreatedEvent(BranchCreatedEvent event) throws IOException {
+        repoChangedEvent(event, EventType.BRANCH_CREATED);
+    }
+
+    @EventListener
+    public void tagCreatedEvent(TagCreatedEvent event) throws IOException {
+        repoChangedEvent(event, EventType.TAG_CREATED);
+    }
+
+    @EventListener
+    public void repositoryPushEvent(RepositoryPushEvent event) throws IOException {
+        repoChangedEvent(event, EventType.REPO_PUSH);
+    }
+
+
+    public void repoChangedEvent(RepositoryRefsChangedEvent event, EventType eventType) throws IOException
     {
         BitbucketPushEvent pushEvent = Events.createPushEvent(event, applicationPropertiesService);
-        sendEvents(pushEvent, event.getRepository(), EventType.REPO_PUSH);
+        sendEvents(pushEvent, event.getRepository(), eventType);
     }
 
     private void sendPullRequestEvent(PullRequestEvent event, EventType eventType) throws IOException
@@ -135,7 +159,7 @@ public class PullRequestListener implements DisposableBean
         ObjectMapper mapper = new ObjectMapper();
         String jsonBody = mapper.writeValueAsString(event);
         StringEntity bodyEntity = new StringEntity(jsonBody, ContentType.APPLICATION_JSON);
-        for (WebHookConfiguration webHookConfiguration : webHookConfigurationDao.getEnabledWebHookConfigurations(repo))
+        for (WebHookConfiguration webHookConfiguration : webHookConfigurationDao.getEnabledWebHookConfigurations(repo, eventType))
         {
             HttpPost post = new HttpPost(webHookConfiguration.getURL());
             post.setHeaders(headers);

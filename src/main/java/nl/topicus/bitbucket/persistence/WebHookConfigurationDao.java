@@ -5,6 +5,7 @@ import com.atlassian.bitbucket.repository.Repository;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import net.java.ao.DBParam;
 import net.java.ao.Query;
+import nl.topicus.bitbucket.events.EventType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +22,9 @@ public class WebHookConfigurationDao {
         return activeObjects.find(WebHookConfiguration.class, Query.select().where("REPO_ID = ?", repo.getId()));
     }
 
-    public WebHookConfiguration[] getEnabledWebHookConfigurations(Repository repo) {
-        return activeObjects.find(WebHookConfiguration.class, Query.select().where("REPO_ID = ? AND IS_ENABLED = ?", repo.getId(), true));
+    public WebHookConfiguration[] getEnabledWebHookConfigurations(Repository repo, EventType eventType) {
+        String clause = String.format("REPO_ID = ? AND IS_ENABLED = ? AND %s = ?", eventType.getQueryColumn());
+        return activeObjects.find(WebHookConfiguration.class, Query.select().where(clause, repo.getId(), true, true));
     }
 
     public WebHookConfiguration getWebHookConfigurations(String id) {
@@ -35,7 +37,7 @@ public class WebHookConfigurationDao {
 
     public WebHookConfiguration createOrUpdateWebHookConfiguration(Repository rep, String id, String title, String url,
                                                                    boolean enabled) {
-        return createOrUpdateWebHookConfiguration(rep, id, title, url, enabled, true, true, true, true, true, true, true, true, true, true);
+        return createOrUpdateWebHookConfiguration(rep, id, title, url, enabled, false, true, true, true, true, true, true, true, true, true);
     }
 
     public WebHookConfiguration createOrUpdateWebHookConfiguration(Repository rep, String id, String title, String url,
