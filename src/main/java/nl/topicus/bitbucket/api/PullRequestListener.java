@@ -17,11 +17,11 @@ import nl.topicus.bitbucket.events.Events;
 import nl.topicus.bitbucket.persistence.WebHookConfiguration;
 import nl.topicus.bitbucket.persistence.WebHookConfigurationDao;
 import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
@@ -31,9 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 @Component
 public class PullRequestListener implements DisposableBean
@@ -41,7 +38,7 @@ public class PullRequestListener implements DisposableBean
     private static final Logger LOGGER = LoggerFactory.getLogger(PullRequestListener.class);
 
     private EventPublisher eventPublisher;
-    private HttpClient httpClient;
+    private CloseableHttpClient httpClient;
     private NavBuilder navBuilder;
     private WebHookConfigurationDao webHookConfigurationDao;
     private PullRequestService pullRequestService;
@@ -143,9 +140,8 @@ public class PullRequestListener implements DisposableBean
             HttpPost post = new HttpPost(webHookConfiguration.getURL());
             post.setHeaders(headers);
             post.setEntity(bodyEntity);
-            try
+            try (CloseableHttpResponse response = httpClient.execute(post))
             {
-                HttpResponse response = httpClient.execute(post);
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (statusCode >= 400)
                 {
@@ -175,5 +171,6 @@ public class PullRequestListener implements DisposableBean
     public void destroy() throws Exception
     {
         eventPublisher.unregister(this);
+        httpClient.close();
     }
 }
