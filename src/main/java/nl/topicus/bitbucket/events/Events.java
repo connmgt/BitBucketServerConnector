@@ -1,7 +1,7 @@
 package nl.topicus.bitbucket.events;
 
 import com.atlassian.bitbucket.event.pull.PullRequestEvent;
-import com.atlassian.bitbucket.event.repository.AbstractRepositoryRefsChangedEvent;
+import com.atlassian.bitbucket.event.repository.RepositoryRefsChangedEvent;
 import com.atlassian.bitbucket.repository.RefChange;
 import com.atlassian.bitbucket.server.ApplicationPropertiesService;
 import nl.topicus.bitbucket.model.Models;
@@ -15,7 +15,7 @@ public final class Events
     {
     }
 
-    public static BitbucketPushEvent createPushEvent(AbstractRepositoryRefsChangedEvent event,
+    public static BitbucketPushEvent createPushEvent(RepositoryRefsChangedEvent event,
                                                      ApplicationPropertiesService appPropSvc)
     {
         BitbucketPushEvent pushEvent = new BitbucketPushEvent();
