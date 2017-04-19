@@ -140,23 +140,23 @@
                  {param fields: [[
                    'id': 'isRepoPush',
                    'labelText': 'On push',
-                   'isChecked': $configuration ? $configuration.isRepoPush : false
+                   'isChecked': $configuration ? $configuration.repoPush : false
                  ]] /}
                 {/call}
                 {call aui.form.checkboxField}
                  {param legendContent: '' /}
                  {param fields: [[
                    'id': 'isBranchCreated',
-                   'labelText': 'Brach created',
-                   'isChecked': $configuration ? $configuration.isBranchCreated : false
+                   'labelText': 'Branch created',
+                   'isChecked': $configuration ? $configuration.branchCreated : false
                  ]] /}
                 {/call}
                 {call aui.form.checkboxField}
                  {param legendContent: '' /}
                  {param fields: [[
                    'id': 'isBranchDeleted',
-                   'labelText': 'Brach deleted',
-                   'isChecked': $configuration ? $configuration.isBranchDeleted : false
+                   'labelText': 'Branch deleted',
+                   'isChecked': $configuration ? $configuration.branchDeleted : false
                  ]] /}
                 {/call}
                 {call aui.form.checkboxField}
@@ -164,7 +164,7 @@
                  {param fields: [[
                    'id': 'isTagCreated',
                    'labelText': 'Tag Created',
-                   'isChecked': $configuration ? $configuration.isTagCreated : false
+                   'isChecked': $configuration ? $configuration.tagCreated : false
                  ]] /}
                 {/call}
 
@@ -178,7 +178,7 @@
                  {param fields: [[
                    'id': 'isPrCreated',
                    'labelText': 'Pull request created',
-                   'isChecked': $configuration ? $configuration.isPrCreated : false
+                   'isChecked': $configuration ? $configuration.prCreated : false
                  ]] /}
                 {/call}
                 {call aui.form.checkboxField}
@@ -186,7 +186,7 @@
                  {param fields: [[
                    'id': 'isPrUpdated',
                    'labelText': 'Pull request updated',
-                   'isChecked': $configuration ? $configuration.isPrUpdated : false
+                   'isChecked': $configuration ? $configuration.prUpdated : false
                  ]] /}
                 {/call}
                 {call aui.form.checkboxField}
@@ -194,7 +194,7 @@
                  {param fields: [[
                    'id': 'isPrMerged',
                    'labelText': 'Pull request merged',
-                   'isChecked': $configuration ? $configuration.isPrMerged : false
+                   'isChecked': $configuration ? $configuration.prMerged : false
                  ]] /}
                 {/call}
                 {call aui.form.checkboxField}
@@ -202,7 +202,7 @@
                  {param fields: [[
                    'id': 'isPrReopened',
                    'labelText': 'Pull request re-opened',
-                   'isChecked': $configuration ? $configuration.isPrReopened : false
+                   'isChecked': $configuration ? $configuration.prReopened : false
                  ]] /}
                 {/call}
                 {call aui.form.checkboxField}
@@ -210,7 +210,7 @@
                  {param fields: [[
                    'id': 'isPrRescoped',
                    'labelText': 'Pull request re-scoped',
-                   'isChecked': $configuration ? $configuration.isPrRescoped : false
+                   'isChecked': $configuration ? $configuration.prRescoped : false
                  ]] /}
                 {/call}
              {/param}

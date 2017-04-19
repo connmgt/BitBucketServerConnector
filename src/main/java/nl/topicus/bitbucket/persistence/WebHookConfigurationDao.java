@@ -33,17 +33,41 @@ public class WebHookConfigurationDao {
         activeObjects.delete(webHookConfiguration);
     }
 
-    public WebHookConfiguration createOrUpdateWebHookConfiguration(Repository rep, String id, String title, String url, boolean enabled) {
+    public WebHookConfiguration createOrUpdateWebHookConfiguration(Repository rep, String id, String title, String url,
+                                                                   boolean enabled) {
+        return createOrUpdateWebHookConfiguration(rep, id, title, url, enabled, true, true, true, true, true, true, true, true, true, true);
+    }
+
+    public WebHookConfiguration createOrUpdateWebHookConfiguration(Repository rep, String id, String title, String url,
+                                                                   boolean enabled, boolean isTagCreated, boolean isBranchDeleted,
+                                                                   boolean isBranchCreated, boolean isRepoPush, boolean isPrDeclined,
+                                                                   boolean isPrRescoped, boolean isPrMerged, boolean isPrReopened,
+                                                                   boolean isPrUpdated, boolean isPrCreated) {
+        WebHookConfiguration webHookConfiguration = null;
+
         if (id != null) {
-            WebHookConfiguration webHookConfiguration = getWebHookConfigurations(id);
-            if (webHookConfiguration != null && webHookConfiguration.getRepositoryId().equals(rep.getId())) {
-                webHookConfiguration.setTitle(title);
-                webHookConfiguration.setEnabled(enabled);
-                webHookConfiguration.setURL(url);
-                webHookConfiguration.save();
-                return webHookConfiguration;
-            }
+            webHookConfiguration = getWebHookConfigurations(id);
         }
-        return activeObjects.create(WebHookConfiguration.class, new DBParam("REPO_ID", rep.getId()), new DBParam("TITLE", title), new DBParam("URL", url), new DBParam("IS_ENABLED", enabled));
+        if (webHookConfiguration == null || !webHookConfiguration.getRepositoryId().equals(rep.getId())) {
+            webHookConfiguration = activeObjects.create(WebHookConfiguration.class, new DBParam("REPO_ID", rep.getId()), new DBParam("TITLE", title), new DBParam("URL", url), new DBParam("IS_ENABLED", enabled));
+
+        }
+        webHookConfiguration.setTitle(title);
+        webHookConfiguration.setEnabled(enabled);
+        webHookConfiguration.setURL(url);
+        webHookConfiguration.setTagCreated(isTagCreated);
+        webHookConfiguration.setBranchDeleted(isBranchDeleted);
+        webHookConfiguration.setBranchCreated(isBranchCreated);
+        webHookConfiguration.setRepoPush(isRepoPush);
+        webHookConfiguration.setPrDeclined(isPrDeclined);
+        webHookConfiguration.setPrRescoped(isPrRescoped);
+        webHookConfiguration.setPrMerged(isPrMerged);
+        webHookConfiguration.setPrReopened(isPrReopened);
+        webHookConfiguration.setPrUpdated(isPrUpdated);
+        webHookConfiguration.setPrCreated(isPrCreated);
+
+        webHookConfiguration.save();
+        return webHookConfiguration;
+
     }
 }

@@ -150,10 +150,10 @@ public class RepositoryConfigServlet extends HttpServlet
 		boolean isPrUpdated = "on".equalsIgnoreCase(req.getParameter("isPrUpdated"));
 		boolean isPrCreated = "on".equalsIgnoreCase(req.getParameter("isPrCreated"));
 
-		WebHookConfiguration webHookConfiguration = webHookConfigurationDao.createOrUpdateWebHookConfiguration(repository, id, title, url, enabled);
+		WebHookConfiguration webHookConfiguration = webHookConfigurationDao.createOrUpdateWebHookConfiguration(repository, id, title, url, enabled, isTagCreated, isBranchDeleted, isBranchCreated, isRepoPush, isPrDeclined, isPrRescoped, isPrMerged, isPrReopened, isPrUpdated, isPrCreated);
 		if (webHookConfiguration == null)
 		{
-			webHookConfiguration = new DummyWebHookConfiguration(title, url, enabled,isTagCreated, isBranchDeleted, isBranchCreated, isRepoPush, isPrDeclined, isPrRescoped, isPrMerged, isPrReopened, isPrUpdated, isPrCreated);
+			webHookConfiguration = new DummyWebHookConfiguration(title, url, enabled, isTagCreated, isBranchDeleted, isBranchCreated, isRepoPush, isPrDeclined, isPrRescoped, isPrMerged, isPrReopened, isPrUpdated, isPrCreated);
 			String template = "nl.topicus.templates.edit";
 			render(resp, template, ImmutableMap.<String, Object>builder().put("repository", repository).put("configuration", webHookConfiguration).build());
 		}
