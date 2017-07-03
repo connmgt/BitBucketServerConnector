@@ -1,4 +1,4 @@
-{namespace nl.topicus.templates}
+{namespace microsoft.office365.templates}
 
 /**
  * @param repository Repository object
@@ -12,7 +12,7 @@
     <meta name="projectKey" content="{$repository.project.key}">
     <meta name="repositorySlug" content="{$repository.slug}">
     <meta name="activeTab" content="repository-settings-plugin-tab">
-    <title>{$repository.slug} / Webhooks</title>
+    <title>{$repository.slug} / Office 365 Connector</title>
 </head>
 <body>
     {if $error}
@@ -21,7 +21,7 @@
     <header class="aui-page-header">
         <div class="aui-page-header-inner">
             <div class="aui-page-header-main">
-                <h2>Webhooks</h2>
+                <h2>Office 365 Connector</h2>
             </div>
             <div class="aui-page-header-actions">
             </div>
@@ -87,14 +87,14 @@
        <meta name="projectKey" content="{$repository.project.key}">
        <meta name="repositorySlug" content="{$repository.slug}">
        <meta name="activeTab" content="repository-settings-plugin-tab">
-       <title>{$repository.slug} / Webhooks</title>
+       <title>{$repository.slug} / Office 365 Connector</title>
    </head>
    <body>
        <header class="aui-page-header">
            <div class="aui-page-header-inner">
                <div class="aui-page-header-main">
                    <ol class="aui-nav aui-nav-breadcrumbs">
-                     <li><a class="active" href="?">Webhooks</a></li>
+                     <li><a class="active" href="?">Office 365 Connector</a></li>
                    </ol>
                    {if $configuration}
                    <h2>Edit {$configuration.title}</h2>

@@ -13,11 +13,11 @@
 
     <ao key="ao-module">
         <description>The AO module for this plugin.</description>
-        <entity>nl.topicus.bitbucket.persistence.WebHookConfiguration</entity>
+        <entity>microsoft.office365.bitbucket.persistence.WebHookConfiguration</entity>
     </ao>
 
     <servlet name="Repository Servlet" key="repository-servlet"
-             class="nl.topicus.bitbucket.api.RepositoryConfigServlet">
+             class="microsoft.office365.bitbucket.api.RepositoryConfigServlet">
         <description key="repository-servlet.description">The Repository Servlet Plugin</description>
         <url-pattern>/webhooks/repository/*</url-pattern>
     </servlet>
@@ -28,27 +28,23 @@
     </client-resource>
 
     <!-- add our i18n resource -->
-    <resource type="i18n" name="i18n" location="bitbucket-webhooks"/>
+    <resource type="i18n" name="i18n" location="office-365-connector"/>
 
     <!-- add our web resources -->
-    <web-resource key="bitbucket-webhooks-resources" name="bitbucket-webhooks Web Resources">
+    <web-resource key="office-365-connector-resources" name="office-365-connector Web Resources">
         <dependency>com.atlassian.auiplugin:ajs</dependency>
 
-        <resource type="download" name="bitbucket-webhooks.css" location="/css/bitbucket-webhooks.css"/>
-        <resource type="download" name="bitbucket-webhooks.js" location="/js/bitbucket-webhooks.js"/>
+        <resource type="download" name="office-365-connector.css" location="/css/office-365-connector.css"/>
+        <resource type="download" name="office-365-connector.js" location="/js/office-365-connector.js"/>
         <resource type="download" name="images/" location="/images"/>
 
-        <context>bitbucket-webhooks</context>
+        <context>office-365-connector</context>
     </web-resource>
     <web-item key="repository-settings-plugin-tab" name="Repository settings navigation tab"
               section="bitbucket.repository.settings.panel/repository-workflow-section" weight="50">
-        <label>Webhooks</label>
+        <label>Office 365 Connector</label>
         <link>/plugins/servlet/webhooks/repository/${repository.project.key}/${repository.slug}/settings</link>
-        <tooltip>Hooray, we have a tab!</tooltip>
+        <tooltip>Office 365 Connector</tooltip>
     </web-item>
-
-    <rest key="nl.topicus.bitbucket.api.WebhookResource" path="/webhook" version="1.0">
-        <description>Provides a Rest service for so other components can CRUD webhooks.</description>
-    </rest>
 
 </atlassian-plugin>
