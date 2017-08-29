@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>microsoft.office365.bitbucket</groupId>
     <artifactId>office-365-connector</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <organization>
         <name>Microsoft</name>
